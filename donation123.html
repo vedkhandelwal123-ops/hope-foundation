@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hope Foundation — Give ₹1, Change a Life</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+
+  <!-- Swiper (carousel) -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+  <!-- AOS (scroll animations) -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <style>
+    :root{
+      --accent:#e63946;
+      --accent-dark:#c62828;
+      --muted:#f9f9f9;
+      --card:#ffffffcc;
+      --glass: rgba(255,255,255,0.06);
+      --radius:14px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:'Quicksand',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background: linear-gradient(135deg,#fef6f7 0%, #fffaf0 50%, #f0fcff 100%);
+      color:#222;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* Page container */
+    .site{
+      max-width:1100px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    /* Header / Hero */
+    header.topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:18px;
+    }
+    .logo{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .logo .icon{
+      width:56px;height:56px;border-radius:12px;
+      background:linear-gradient(135deg,#ff9aa2,#ffb3a7);
+      display:flex;align-items:center;justify-content:center;font-size:26px;color:white;
+      box-shadow:0 6px 18px rgba(230,57,70,0.18);
+    }
+    .brand{
+      font-weight:700;font-size:1.25rem;color:var(--accent);
+    }
+
+    nav.mainnav a{
+      margin-left:14px;
+      text-decoration:none;color:#444;font-weight:600;
+    }
+    nav.mainnav a.cta{
+      background:var(--accent);color:white;padding:8px 14px;border-radius:10px;
+      box-shadow:0 6px 18px rgba(198,40,40,0.15);
+    }
+
+    /* Hero */
+    .hero{
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:18px;
+      align-items:center;
+      margin-bottom:22px;
+    }
+    .hero-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));
+      border-radius:var(--radius);
+      padding:28px;
+      box-shadow:0 8px 30px rgba(13,13,13,0.06);
+    }
+    .hero h1{
+      font-family:'Playfair Display',serif;
+      margin:0 0 10px 0;color:#2b2b2b;font-size:2.1rem;
+      line-height:1.05;
+    }
+    .hero p.lead{
+      margin:6px 0 18px;color:#444;font-size:1.05rem;
+    }
+
+    .kpis{display:flex;gap:12px;margin-top:12px}
+    .kpi{flex:1;background:var(--card);padding:12px;border-radius:12px;text-align:center}
+    .kpi strong{display:block;font-size:1.4rem;color:var(--accent)}
+    .kpi span{display:block;color:#666;font-size:0.95rem;margin-top:6px}
+
+    /* Right column: donation panel */
+    .donation-panel{
+      border-radius:var(--radius);
+      overflow:hidden;
+      background:url('https://source.unsplash.com/600x800/?community,help') center/cover no-repeat;
+      position:relative;
+      min-height:360px;
+      box-shadow:0 12px 40px rgba(0,0,0,0.12);
+    }
+    .donation-overlay{
+      position:absolute;inset:0;background:linear-gradient(180deg, rgba(6,6,6,0.16), rgba(6,6,6,0.38));
+      color:white;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:18px;
+    }
+    .donation-overlay h3{margin:0 0 6px 0;font-size:1.3rem}
+    .donation-overlay p{margin:0 0 14px 0;font-weight:600}
+    .qr{
+      width:150px;height:150px;border-radius:12px;border:6px solid rgba(255,255,255,0.2);overflow:hidden;background:white;margin-bottom:8px;
+    }
+    .donate-now{
+      background:var(--accent);color:white;padding:10px 18px;border-radius:12px;font-weight:700;border:none;cursor:pointer;
+      box-shadow:0 6px 18px rgba(198,40,40,0.2);
+    }
+
+    /* Stories carousel */
+    .section{
+      margin-top:22px;
+    }
+    .section h2{color:var(--accent);margin:0 0 12px 0}
+    .swiper{width:100%}
+    .story-card{
+      background:white;border-radius:12px;padding:14px;display:flex;gap:12px;align-items:flex-start;
+      box-shadow:0 8px 30px rgba(16,16,16,0.06);
+    }
+    .story-card img{width:120px;height:90px;border-radius:10px;object-fit:cover;flex-shrink:0}
+    .story-card .meta{flex:1}
+    .story-card .meta h3{margin:0;font-size:1.05rem;color:#222}
+    .story-card .meta p{margin:6px 0 0 0;color:#555;font-size:0.95rem}
+    .story-card .meta .impact{margin-top:8px;font-weight:700;color:var(--accent)}
+
+    /* Progress & callout */
+    .goal{
+      background:linear-gradient(180deg,#fff,#fff0);
+      padding:16px;border-radius:12px;margin-top:18px;display:flex;gap:12px;align-items:center;
+      box-shadow:0 6px 20px rgba(0,0,0,0.06);
+    }
+    .progress-wrap{flex:1}
+    .progress{height:18px;background:#eee;border-radius:999px;overflow:hidden}
+    .progress > span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-dark));width:0%}
+    .goal .goal-info{min-width:160px;text-align:right}
+    .goal .goal-info strong{display:block;color:var(--accent)}
+
+    /* Testimonials and contact */
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+    .card{background:white;border-radius:12px;padding:16px;box-shadow:0 8px 30px rgba(0,0,0,0.06)}
+    .testimonial{font-style:italic;color:#444}
+
+    /* Footer */
+    footer{margin-top:26px;text-align:center;color:#666;font-size:13px;padding:20px}
+
+    /* Modal */
+    .modal{
+      position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(11,11,11,0.45);z-index:80;
+    }
+    .modal.open{display:flex}
+    .modal-card{background:white;padding:20px;border-radius:12px;max-width:420px;width:92%;box-shadow:0 10px 40px rgba(0,0,0,0.25)}
+    .modal-card h3{color:var(--accent);margin-top:0}
+    .modal .row{display:flex;gap:8px;margin-top:12px}
+    .modal .qr-big{width:150px;height:150px;border-radius:10px;object-fit:cover}
+
+    /* small */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr; }
+      .donation-panel{min-height:260px}
+      .two-col{grid-template-columns:1fr}
+    }
+
+    @media (max-width:520px){
+      .kpis{flex-direction:column}
+      nav.mainnav{display:none}
+      header.topbar{gap:10px}
+    }
+
+    /* micro interactions */
+    .btn-ghost{background:transparent;border:2px solid rgba(0,0,0,0.06);padding:8px 12px;border-radius:10px;cursor:pointer}
+  </style>
+</head>
+<body>
+  <div class="site">
+
+    <!-- Header -->
+    <header class="topbar" data-aos="fade-down">
+      <div class="logo">
+        <div class="icon">HF</div>
+        <div>
+          <div class="brand">Hope Foundation</div>
+          <div style="font-size:0.85rem;color:#666">Small change. Big hope.</div>
+        </div>
+      </div>
+
+      <nav class="mainnav" aria-label="Main navigation">
+        <a href="#about">About</a>
+        <a href="#stories">Stories</a>
+        <a href="#donate" class="cta" id="headerDonate">Donate</a>
+      </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero-card" data-aos="fade-right">
+        <h1 id="heroTitle">Just ₹1 — One tiny act, one big change</h1>
+        <p class="lead">A single rupee pooled with others becomes meals, schoolbooks and hope. See how small donations create real, measurable impact.</p>
+
+        <div class="kpis" aria-hidden="true">
+          <div class="kpi">
+            <strong id="counterMeals">0</strong>
+            <span>Meals served</span>
+          </div>
+          <div class="kpi">
+            <strong id="counterChildren">0</strong>
+            <span>Children supported</span>
+          </div>
+          <div class="kpi">
+            <strong id="counterVolunteers">0</strong>
+            <span>Volunteers</span>
+          </div>
+        </div>
+
+        <div class="goal" data-aos="fade-up">
+          <div class="progress-wrap">
+            <div style="font-size:0.95rem;color:#444">Fundraising progress — Month goal: ₹50,000</div>
+            <div class="progress" aria-hidden="true" style="margin-top:8px"><span id="progressBar" style="width:0%"></span></div>
+          </div>
+          <div class="goal-info">
+            <strong id="raisedAmount">₹0</strong>
+            <small style="display:block;color:#777">Raised</small>
+          </div>
+        </div>
+
+        <div style="margin-top:14px">
+          <button class="donate-now" id="openDonate">💖 Donate ₹1 Now</button>
+          <button class="btn-ghost" id="shareBtn">🔗 Share</button>
+        </div>
+      </div>
+
+      <aside class="donation-panel" data-aos="fade-left" role="complementary" aria-label="Donation panel">
+        <div class="donation-overlay">
+          <h3>Make a small difference</h3>
+          <p>Scan to donate or use UPI</p>
+
+          <!-- QR (use user's QR; fallback to Unsplash placeholder) -->
+          <div class="qr">
+            <img src="C:\Users\Ved\OneDrive\Desktop\ved k\qrcode.jpg.jpg" alt="QR code for donation" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+
+          <div style="font-weight:700">UPI ID: <span style="font-weight:600">vedkhandelwal123-2@okicici</span></div>
+
+          <div style="margin-top:12px">
+            <a class="donate-now" id="donateLink" href="upi://pay?pa=vedkhandelwal123-2@okicici&pn=Hope%20Foundation&am=1&cu=INR&tn=Donation%20for%20the%20poor">Donate ₹1</a>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- Stories Carousel -->
+    <section id="stories" class="section" data-aos="fade-up">
+      <h2>Real Stories — Real People</h2>
+
+      <!-- Swiper -->
+      <div class="swiper mySwiper" style="padding:12px 0">
+        <div class="swiper-wrapper">
+          <!-- Story 1 -->
+          <div class="swiper-slide">
+            <div class="story-card">
+              <img loading="lazy" src="C:\Users\Ved\OneDrive\Desktop\ved k\img1.jpg" alt="child at school">
+              <div class="meta">
+                <h3>Rani's Dream — School & Meals</h3>
+                <p>Rani is seven. With a steady meal and school supplies she now studies confidently. Your small support provided 120 meals last month.</p>
+                <div class="impact">Impact: 120 meals served</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Story 2 -->
+          <div class="swiper-slide">
+            <div class="story-card">
+              <img loading="lazy" src="C:\Users\Ved\OneDrive\Desktop\ved k\img2.jpg" alt="mother with child">
+              <div class="meta">
+                <h3>Meera's Struggle — A Mother's Hope</h3>
+                <p>Meera works long hours; donations funded evening classes for her kids and a food kit every week.</p>
+                <div class="impact">Impact: 45 families supported</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Story 3 -->
+          <div class="swiper-slide">
+            <div class="story-card">
+              <img loading="lazy" src="C:\Users\Ved\OneDrive\Desktop\ved k\img3.jpg" alt="community volunteers">
+              <div class="meta">
+                <h3>Community Kitchens</h3>
+                <p>Pop-up kitchens provide hot meals weekly — volunteers and donors made 800 meals available last month.</p>
+                <div class="impact">Impact: 800 meals cooked</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </section>
+
+    <!-- Testimonials & Contact -->
+    <section class="section" data-aos="fade-up">
+      <div class="two-col">
+        <div class="card">
+          <h2>What donors say</h2>
+          <p class="testimonial">"I asked friends to chip in ₹1 each — we collected enough to feed 50 kids for a week." — Ananya</p>
+          <p class="testimonial">"Seeing the impact numbers motivated me to donate monthly." — Ravi</p>
+        </div>
+
+        <div class="card" id="about" aria-labelledby="aboutTitle">
+          <h2 id="aboutTitle">About Hope Foundation</h2>
+          <p>We are a local nonprofit focused on hunger relief and education. We partner with community kitchens, schools, and volunteers to ensure transparency and impact. Donations are audited monthly and results published here.</p>
+
+          <div style="margin-top:14px">
+            <strong>Contact</strong>
+            <p>Email: support@hopefoundation.org</p>
+            <p>Phone: +91 98765 43210</p>
+            <p>Address: 123 Hope Street, Mumbai, India</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <footer>
+      © 2025 Hope Foundation — Small change, big hope • <a href="#" style="color:var(--accent);text-decoration:none">Privacy</a>
+    </footer>
+  </div>
+
+  <!-- Donate Modal -->
+  <div class="modal" id="donateModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-card" role="document" data-aos="zoom-in">
+      <h3>Donate ₹1 — Quick Steps</h3>
+      <p>Scan the QR code or click the UPI button to open your UPI app. After donating, click "I Paid" to update progress (simulated).</p>
+      <div style="display:flex;gap:12px;align-items:center;margin-top:12px">
+        <img class="qr-big" src="C:\Users\Ved\OneDrive\Desktop\ved k\qrcode.jpg.jpg" alt="QR code for donation">
+        <div style="flex:1">
+          <div style="font-weight:700">UPI ID</div>
+          <div style="margin-top:6px">vedkhandelwal123-2@okicici</div>
+          <div style="margin-top:10px">
+            <a class="donate-now" id="modalUpi" href="upi://pay?pa=vedkhandelwal123-2@okicici&pn=Hope%20Foundation&am=1&cu=INR">Open UPI App</a>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px;display:flex;gap:8px;justify-content:flex-end">
+        <button class="btn-ghost" id="closeModal">Cancel</button>
+        <button class="donate-now" id="confirmPaid">I Paid (simulate)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Libraries -->
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+  <script>
+    // Initialize AOS and Swiper
+    AOS.init({duration:700, once:true, easing:'ease-in-out'});
+
+    const swiper = new Swiper('.mySwiper', {
+      slidesPerView: 1.05,
+      spaceBetween: 12,
+      pagination: { el: '.swiper-pagination', clickable: true },
+      breakpoints: { 800: { slidesPerView: 2 }, 1100: { slidesPerView: 2.2 } }
+    });
+
+    // Counters animation
+    function animateValue(id, start, end, duration) {
+      const obj = document.getElementById(id);
+      let startTimestamp = null;
+      const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        obj.textContent = Math.floor(progress * (end - start) + start);
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        }
+      };
+      window.requestAnimationFrame(step);
+    }
+
+    // Simulated starting data (these would come from your backend in real app)
+    let initialMeals = 1200;
+    let initialChildren = 320;
+    let initialVolunteers = 42;
+    let raised = 12400; // ₹
+    let goal = 50000;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      animateValue('counterMeals', 0, initialMeals, 1200);
+      animateValue('counterChildren', 0, initialChildren, 1200);
+      animateValue('counterVolunteers', 0, initialVolunteers, 1200);
+      updateProgress();
+    });
+
+    function updateProgress(){
+      const percent = Math.min(100, Math.round((raised/goal)*100));
+      document.getElementById('progressBar').style.width = percent + '%';
+      document.getElementById('raisedAmount').textContent = '₹' + raised.toLocaleString();
+    }
+
+    // Modal handling
+    const donateModal = document.getElementById('donateModal');
+    document.getElementById('openDonate').addEventListener('click', ()=> openModal());
+    document.getElementById('headerDonate').addEventListener('click', (e)=>{
+      e.preventDefault(); openModal();
+    });
+    document.getElementById('closeModal').addEventListener('click', ()=> closeModal());
+    function openModal(){ donateModal.classList.add('open'); donateModal.setAttribute('aria-hidden','false'); }
+    function closeModal(){ donateModal.classList.remove('open'); donateModal.setAttribute('aria-hidden','true'); }
+
+    // Simulate a donation (for demo purposes)
+    document.getElementById('confirmPaid').addEventListener('click', ()=>{
+      // In a real site you'd verify payment server-side
+      raised += 1;
+      initialMeals += 1; // assume ₹1 buys one small meal
+      animateValue('counterMeals', initialMeals-1, initialMeals, 400);
+      updateProgress();
+      closeModal();
+      // brief acknowledgement
+      const btn = document.createElement('div');
+      btn.textContent = 'Thank you — donation recorded (simulated)';
+      btn.style.position='fixed';btn.style.bottom='24px';btn.style.left='50%';btn.style.transform='translateX(-50%)';
+      btn.style.background='linear-gradient(90deg,#4caf50,#2e7d32)';btn.style.color='white';btn.style.padding='10px 14px';
+      btn.style.borderRadius='10px';btn.style.boxShadow='0 6px 20px rgba(0,0,0,0.15)';document.body.appendChild(btn);
+      setTimeout(()=> btn.remove(),2500);
+    });
+
+    // Share button (web share if available)
+    document.getElementById('shareBtn').addEventListener('click', async ()=>{
+      const shareData = { title:'Hope Foundation — Donate ₹1', text:'Join me to support Hope Foundation. Even ₹1 helps!', url: window.location.href };
+      if (navigator.share) {
+        try{ await navigator.share(shareData); } catch(e){}
+      } else {
+        // fallback: copy link
+        navigator.clipboard.writeText(window.location.href).then(()=> alert('Link copied to clipboard'));
+      }
+    });
+
+    // Accessibility: close modal on Escape
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
+
+    // Optional: smooth scroll for header links
+    document.querySelectorAll('nav.mainnav a').forEach(a=>{
+      a.addEventListener('click',(e)=>{
+        const href = a.getAttribute('href');
+        if(href && href.startsWith('#')){
+          e.preventDefault();
+          const el = document.querySelector(href);
+          if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+        }
+      });
+    });
+
+  </script>
+</body>
+</html>
